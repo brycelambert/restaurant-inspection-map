@@ -26,6 +26,7 @@ def clean_string(string)
 end
 
 def clean_text(text)
+  text.split.map(&:capitalize).join(' ').capitalize
 end
 
 def clean_coordinates(coordinates)
