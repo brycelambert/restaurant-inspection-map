@@ -35,6 +35,7 @@ def iterate_output(input_array)
         violation[:violation_dttm] = row[:violdttm]
 
         parsed_array.last[:violations].push(violation)
+        parsed_array.last[:violations_count] += 1
 
       elsif row[:licstatus] == 'Active'
         restaurant = Hash.new
@@ -56,6 +57,7 @@ def iterate_output(input_array)
           violation[:violation_code] = row[:violation]
           violation[:violation_dttm] = row[:violdttm]
           restaurant[:violations].push(violation)
+          restaurant[:violations_count] = 1
         end
 
         parsed_array.push(restaurant)
