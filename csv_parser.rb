@@ -21,8 +21,9 @@ end
 
 #FIX SPACE SUBTITUTION
 def clean_string(string)
-  string.downcase
-  string.split.map(&:capitalize).join(' ')
+  unless string == nil
+    string.downcase.split.map(&:capitalize).join(' ')
+  end
 end
 
 def clean_text(text)
@@ -37,14 +38,16 @@ def clean_coordinates(coordinates)
 end
 
 def clean_address(address)
-  if address.include? 'Av'
-    return address.gsub(' Av ', ' Ave. ')
-  elsif address.include? 'Bl'
-    return address.gsub('Bl', 'Blvd.')
-  elsif address.include? 'Plaza' || address.include? 'Logan Airport'
-    return address
+  clean_address = clean_string(address)
+
+  if clean_address.include? 'Av'
+    return clean_address.gsub(' Av', ' Ave.')
+  elsif clean_address.include? ' Bl'
+    return address.gsub(' Bl', ' Blvd.')
+  elsif clean_address.include? 'Plaza' or address.include? 'Airport'
+    return clean_address
   else
-    returnaddress << '.'
+    return clean_address << '.'
   end
 end
 
@@ -53,16 +56,19 @@ def iterate_output(input_array)
 
   input_array.each do |row|
     unless row[:location] == nil
-      if parsed_array.last != nil && clean_string(row[:businessname]) == parsed_array.last[:businessname] && row[:result] = 'HE_Fail'
+      if parsed_array.last != nil && clean_string(row[:businessname]) == parsed_array.last[:businessname] && row[:violstatus] = 'Fail'
         violation = Hash.new
         violation[:level] = convert_violation_level(row[:viollevel])
-        violation[:description] = row[:violdesc]
-        violation[:comments] = row[:comments]
+        violation[:description] = clean_text(row[:violdesc])
+        violation[:comments] = clean_text(row[:comments])
         violation[:violation_code] = row[:violation]
         violation[:violation_dttm] = row[:violdttm]
 
         parsed_array.last[:violations].push(violation)
         parsed_array.last[:violations_count] += 1
+
+        #output
+        puts "parsed row #{row}"
 
       elsif row[:licstatus] == 'Active'
         restaurant = Hash.new
@@ -70,17 +76,17 @@ def iterate_output(input_array)
         restaurant[:owner] = clean_string(row[:legalowner])
         restaurant[:first_name] = clean_string(row[:namefirst].capitalize)
         restaurant[:last_name] = clean_string(row[:namelast].capitalize)
-        restaurant[:address] = clean_string(row[:address])
+        restaurant[:address] = clean_address(row[:address])
         restaurant[:city] = clean_string(row[:city])
         restaurant[:licenseno] = row[:licenseno]
         restaurant[:longitutde], restaurant[:latitude] = clean_coordinates(row[:location])
         restaurant[:violations] = Array.new
 
-        if row[:violstatus] = 'HE_Fail'
+        if row[:violstatus] = 'Fail'
           violation = Hash.new
           violation[:level] = convert_violation_level(row[:viollevel])
-          violation[:description] = row[:violdesc]
-          violation[:comments] = row[:comments]
+          violation[:description] = clean_text(row[:violdesc])
+          violation[:comments] = clean_text(row[:comments])
           violation[:violation_code] = row[:violation]
           violation[:violation_dttm] = row[:violdttm]
           restaurant[:violations].push(violation)
@@ -88,6 +94,9 @@ def iterate_output(input_array)
         end
 
         parsed_array.push(restaurant)
+
+        #output
+        puts "parsed row #{row}"
       end
     end
   end
@@ -96,11 +105,10 @@ def iterate_output(input_array)
 end
 
 
-file = File.read('csv.csv')
+file = File.read('csv2.csv')
 csv_file = CSV.new(file, {headers: true, header_converters: :symbol, converters: [:all, :blank_to_nil]})
 
 output_array = csv_file.to_a.map { |row| row.to_hash }
-binding.pry
 
 parsed_array = iterate_output(output_array)
 
