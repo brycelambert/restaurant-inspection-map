@@ -27,7 +27,9 @@ def clean_string(string)
 end
 
 def clean_text(text)
-  text.split.map(&:capitalize).join(' ').capitalize
+  unless text == nil
+    text.split.map(&:capitalize).join(' ').capitalize
+  end
 end
 
 def clean_coordinates(coordinates)
@@ -105,7 +107,7 @@ def iterate_output(input_array)
 end
 
 
-file = File.read('csv2.csv')
+file = File.read('csv2.csv', encoding: 'windows-1251:utf-8')
 csv_file = CSV.new(file, {headers: true, header_converters: :symbol, converters: [:all, :blank_to_nil]})
 
 output_array = csv_file.to_a.map { |row| row.to_hash }
