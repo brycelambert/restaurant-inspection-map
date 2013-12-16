@@ -15,9 +15,9 @@ $(function() {
 });
 
 var plotRestaurants = function() {
-	for (var i = 0; i < data.length; i++) {
-		var longitude = [data[i][:longitude],
-				lattitude = data[i][:lattitude];
+	for (var i = 0; i < restaurant_data.length; i++) {
+		var longitude = restaurant_data[i].longitude,
+				lattitude = restaurant_data[i].lattitude;
 		var marker = L.circle([longitude, lattitude], 5, circle_options)
 	}
 };
