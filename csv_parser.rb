@@ -106,6 +106,14 @@ def iterate_output(input_array)
   return parsed_array
 end
 
+#Covert Hashes to arrays
+
+def convert_hashes(input_array)
+  output_array = Array.new
+  input_array.each { |i| output_array << i.values }
+  return output_array
+end
+
 
 file = File.read('csv2.csv', encoding: 'windows-1251:utf-8')
 csv_file = CSV.new(file, {headers: true, header_converters: :symbol, converters: [:all, :blank_to_nil]})
