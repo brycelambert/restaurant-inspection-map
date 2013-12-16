@@ -1,6 +1,5 @@
 require 'csv'
 require 'json'
-require 'pry'
 
 CSV::Converters[:blank_to_nil] = lambda do |field|
   field && field.empty? ? nil : field
@@ -46,10 +45,12 @@ def clean_address(address)
     return clean_address.gsub(' Av', ' Ave.')
   elsif clean_address.include? ' Bl'
     return address.gsub(' Bl', ' Blvd.')
-  elsif clean_address.include? 'Plaza' or address.include? 'Airport'
+  elsif clean_address.include? 'St' or clean_address.include? 'Rd'
+    return clean_address << '.'
+  elsif clean_address.include? 'Plaza' or clean_address.include? 'Airport'
     return clean_address
   else
-    return clean_address << '.'
+    return clean_address
   end
 end
 
@@ -59,18 +60,18 @@ def iterate_output(input_array)
   input_array.each do |row|
     unless row[:location] == nil
       if parsed_array.last != nil && clean_string(row[:businessname]) == parsed_array.last[:businessname] && row[:violstatus] = 'Fail'
-        violation = Hash.new
-        violation[:level] = convert_violation_level(row[:viollevel])
-        violation[:description] = clean_text(row[:violdesc])
-        violation[:comments] = clean_text(row[:comments])
-        violation[:violation_code] = row[:violation]
-        violation[:violation_dttm] = row[:violdttm]
+        # violation = Hash.new
+        # violation[:level] = convert_violation_level(row[:viollevel])
+        # violation[:description] = clean_text(row[:violdesc])
+        # violation[:comments] = clean_text(row[:comments])
+        # violation[:violation_code] = row[:violation]
+        # violation[:violation_dttm] = row[:violdttm]
 
-        parsed_array.last[:violations].push(violation)
+        # parsed_array.last[:violations].push(violation)
         parsed_array.last[:violations_count] += 1
 
-        #output
-        puts "parsed row #{row}"
+        # #output
+        # puts "parsed row #{row}"
 
       elsif row[:licstatus] == 'Active'
         restaurant = Hash.new
@@ -81,17 +82,17 @@ def iterate_output(input_array)
         restaurant[:address] = clean_address(row[:address])
         restaurant[:city] = clean_string(row[:city])
         restaurant[:licenseno] = row[:licenseno]
-        restaurant[:longitutde], restaurant[:latitude] = clean_coordinates(row[:location])
-        restaurant[:violations] = Array.new
+        restaurant[:long], restaurant[:lat] = clean_coordinates(row[:location])
+        # restaurant[:violations] = Array.new
 
         if row[:violstatus] = 'Fail'
-          violation = Hash.new
-          violation[:level] = convert_violation_level(row[:viollevel])
-          violation[:description] = clean_text(row[:violdesc])
-          violation[:comments] = clean_text(row[:comments])
-          violation[:violation_code] = row[:violation]
-          violation[:violation_dttm] = row[:violdttm]
-          restaurant[:violations].push(violation)
+        #   violation = Hash.new
+        #   violation['level'] = convert_violation_level(row[:viollevel])
+        #   violation[:description] = clean_text(row[:violdesc])
+        #   violation[:comments] = clean_text(row[:comments])
+        #   violation[:violation_code] = row[:violation]
+        #   violation[:violation_dttm] = row[:violdttm]
+        #   restaurant[:violations].push(violation)
           restaurant[:violations_count] = 1
         end
 
@@ -106,20 +107,27 @@ def iterate_output(input_array)
   return parsed_array
 end
 
-#Covert Hashes to arrays
+#Optional covert Hashes to arrays
+#Will not handle violations array!
+# def convert_hashes(input_array)
+#   output_array = Array.new
+#   input_array.each do |restaurant|
+#     restaurant[:violations].each { |violation| }
+#    output_array << restaurant.values
+#  end
+#   return output_array
+# end
 
-def convert_hashes(input_array)
-  output_array = Array.new
-  input_array.each { |i| output_array << i.values }
-  return output_array
-end
-
-
+#Input csv
 file = File.read('csv2.csv', encoding: 'windows-1251:utf-8')
 csv_file = CSV.new(file, {headers: true, header_converters: :symbol, converters: [:all, :blank_to_nil]})
 
 output_array = csv_file.to_a.map { |row| row.to_hash }
 
+#output csv
 parsed_array = iterate_output(output_array)
 
-File.open('output.json', 'w') { |file| file.write(parsed_array) }
+open('output_no_violations.json', 'a') do |f|
+f << 'restaurant_data = '
+f << parsed_array.to_json
+end
