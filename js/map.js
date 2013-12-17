@@ -17,10 +17,18 @@ $(function() {
 		for (var i = 0; i < restaurant_data.length; i++) {
 			var long = restaurant_data[i].long,
 					lat = restaurant_data[i].lat,
-					businessname = restaurant_data[i].businessname;
+					name = restaurant_data[i].businessname,
+					address = restaurant_data[i].address,
+					city = restaurant_data[i].city,
+					owner = (restaurant_data[i].owner != null) ? restaurant_data[i].owner : restaurant_data[i].first_name + restaurant_data[i].last_name,
+					violations_count = restaurant_data[i].violations_count,
+					marker_text =
+					"<p class='name'>" + name + "</p>
+					<p class='address'>" + address + "<br />" + city + "</p>
+					<p class='owner'>owner: " + owner; + ""
 
 			var marker = L.circle([long, lat], 15, circle_options);
-			marker.bindPopup(businessname);
+			marker.bindPopup(marker_text);
 			marker.on('mouseover', function(evt){ evt.target.openPopup(); });
 			map.addLayer(marker)
 		};

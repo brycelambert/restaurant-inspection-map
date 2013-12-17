@@ -5,6 +5,10 @@ CSV::Converters[:blank_to_nil] = lambda do |field|
   field && field.empty? ? nil : field
 end
 
+#FIX FOR:
+#caps following open parens
+#caps following hyphen and slash (/)
+
 def convert_violation_level(level)
   case level
   when '*'
@@ -18,7 +22,6 @@ def convert_violation_level(level)
   end
 end
 
-#FIX SPACE SUBTITUTION
 def clean_string(string)
   unless string == nil
     string.downcase.split.map(&:capitalize).join(' ')
