@@ -1,6 +1,7 @@
 require 'csv'
 require 'json'
 require 'time'
+require 'pry'
 
 #Roman Numerals? --Find regex thing
 #Abbreviations 'M.g.h'
@@ -40,10 +41,10 @@ def clean_text(text)
 end
 
 def clean_business_name(name)
-  return name if name == nil
+  return name if name.nil?
   clean_name = downcase_prepositions(name)
   index = clean_name.index("(") || clean_name.index("/") || clean_name.index("/-\S/")
-  unless index.nil?
+  if index != nil && index != clean_name.length - 1
     clean_name[index + 1] = clean_name[index + 1].upcase
   end
   clean_name.sub!(/l\sl\sc|l\.*?l\.*?c/i, 'LLC')
