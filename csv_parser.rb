@@ -1,6 +1,10 @@
 require 'csv'
 require 'json'
 
+#ADJUST FOR HYPHENS
+#Roman Numberals? --Find regex thing
+#Corp abbreviations like llc Co.
+
 CSV::Converters[:blank_to_nil] = lambda do |field|
   field && field.empty? ? nil : field
 end
@@ -54,7 +58,7 @@ def clean_address(address)
     return clean_address.gsub(' Av', ' Ave.')
   elsif clean_address.include? ' Bl'
     return address.gsub(' Bl', ' Blvd.')
-  elsif clean_address.include? 'St' or clean_address.include? 'Rd'
+  elsif clean_address.include? ' St' or clean_address.include? ' Rd'
     return clean_address << '.'
   elsif clean_address.include? 'Plaza' or clean_address.include? 'Airport'
     return clean_address
