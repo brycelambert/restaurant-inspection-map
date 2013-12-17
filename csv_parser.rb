@@ -1,9 +1,18 @@
 require 'csv'
 require 'json'
 
-#ADJUST FOR HYPHENS
-#Roman Numberals? --Find regex thing
-#Corp abbreviations like llc Co.
+#ADJUST FOR HYPHENS, but not hyphens with spaces following
+#Roman Numerals? --Find regex thing
+#Abbreviations 'M.g.h'
+
+#choose businessname of first + last for ONE owner
+
+#Owner, first or last name might be null
+
+#cleaning-> of, and, on
+
+
+#Narrow by year -> regex search dttm
 
 CSV::Converters[:blank_to_nil] = lambda do |field|
   field && field.empty? ? nil : field
@@ -32,9 +41,12 @@ end
 def clean_business_name(name)
   clean_name = clean_string(name)
   index = clean_name.index("(") || clean_name.index("/")
-  unless index == nil?
+  unless index == nil? || clean_name == nil
     clean_name[index + 1] = clean_name[index + 1].upcase
   end
+  clean_name.sub!(/l\sl\sc|l\.*?l\.*?c/i, 'LLC')
+  clean_name.sub!(/co\.?\s/i), 'Co. ')
+  clean_name.sub!(/l\s?l\s?p/i, 'LLP')
   return clean_name
 end
 
@@ -51,10 +63,11 @@ def clean_coordinates(coordinates)
   coordinates_array << longitutde.to_f << latitude.to_f
 end
 
+#This is silly
 def clean_address(address)
   clean_address = clean_string(address)
 
-  if clean_address.include? 'Av'
+  if clean_address.include? ' Av'
     return clean_address.gsub(' Av', ' Ave.')
   elsif clean_address.include? ' Bl'
     return address.gsub(' Bl', ' Blvd.')
@@ -88,7 +101,7 @@ def iterate_output(input_array)
 
       elsif row[:licstatus] == 'Active'
         restaurant = Hash.new
-        restaurant[:businessname] = clean_string(row[:businessname])
+        restaurant[:businessname] = clean_business_name(row[:businessname])
         restaurant[:owner] = clean_string(row[:legalowner])
         restaurant[:first_name] = clean_string(row[:namefirst].capitalize)
         restaurant[:last_name] = clean_string(row[:namelast].capitalize)
@@ -132,7 +145,7 @@ end
 # end
 
 #Input csv
-file = File.read('csv2.csv', encoding: 'windows-1251:utf-8')
+file = File.read('csv.csv', encoding: 'windows-1251:utf-8')
 csv_file = CSV.new(file, {headers: true, header_converters: :symbol, converters: [:all, :blank_to_nil]})
 
 output_array = csv_file.to_a.map { |row| row.to_hash }

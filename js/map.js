@@ -20,6 +20,11 @@ $(function() {
 					name = restaurant_data[i].businessname,
 					address = restaurant_data[i].address,
 					city = restaurant_data[i].city,
+					
+					// move to ruby??
+					//Plot w/ id for dom selection?
+					//https://groups.google.com/forum/#!topic/leaflet-js/DY5G3Os2EzE
+					//http://labs.easyblog.it/maps/leaflet-search/
 					owner = (restaurant_data[i].owner != null) ? restaurant_data[i].owner : restaurant_data[i].first_name + restaurant_data[i].last_name,
 					violations_count = restaurant_data[i].violations_count,
 					marker_text =
@@ -30,12 +35,12 @@ $(function() {
 					<p class='owner'><strong>Owner:</strong> " + owner +
 					"</div> \
 					<div class='right'> \
-					<p class='violations_heading'>Violations:</p> \
+					<p class='violations_heading'>Violations</p> \
 					<p class='violations_count'>" + violations_count +
 					"</div> \
 					</div>";
 
-			var marker = L.circle([long, lat], 15, circle_options);
+			var marker = L.circle([long, lat], 5, circle_options);
 			marker.bindPopup(marker_text);
 			marker.on('mouseover', function(evt){ evt.target.openPopup(); });
 			map.addLayer(marker)
