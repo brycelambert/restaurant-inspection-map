@@ -1,16 +1,8 @@
 require 'csv'
 require 'json'
 
-#ADJUST FOR HYPHENS, but not hyphens with spaces following
 #Roman Numerals? --Find regex thing
 #Abbreviations 'M.g.h'
-
-#choose businessname of first + last for ONE owner
-
-#Owner, first or last name might be null
-
-#cleaning-> of, and, on
-
 
 #Narrow by year -> regex search dttm
 
@@ -31,17 +23,27 @@ def convert_violation_level(level)
   end
 end
 
+#Each word capitalized
 def clean_string(string)
   unless string == nil
     clean_string = string.downcase.split.map(&:capitalize).join(' ')
+    return clean_string == '' ? nil : clean_string
   end
-  return clean_string == '' ? nil : clean_string
+end
+
+#Only first letter capitalized
+def clean_text(text)
+  unless text == nil?
+    text.split.map(&:downcase).join(' ').capitalize
+  end
 end
 
 def clean_business_name(name)
-  clean_name = clean_string(name)
-  index = clean_name.index("(") || clean_name.index("/")
-  unless index == nil? || clean_name == nil
+  return name if name == nil
+
+  clean_name = downcase_prepositions(name)
+  index = clean_name.index("(") || clean_name.index("/") || clean_name.index("/-\S/")
+  unless index == nil?
     clean_name[index + 1] = clean_name[index + 1].upcase
   end
   clean_name.sub!(/l\sl\sc|l\.*?l\.*?c/i, 'LLC')
@@ -50,10 +52,8 @@ def clean_business_name(name)
   return clean_name
 end
 
-def clean_text(text)
-  unless text == nil?
-    text.split.map(&:capitalize).join(' ').capitalize
-  end
+def downcase_prepositions(uppercase_prep_string)
+  uppercase_prep_string.gsub(/\sOn\s/|/\sAnd\s/|/\sThe\s/|/\sOf\s/, ' On ' => ' on ', ' And ' => ' and ', ' The ' => ' the ', ' Of ' => ' of ')
 end
 
 def clean_coordinates(coordinates)
@@ -63,26 +63,33 @@ def clean_coordinates(coordinates)
   coordinates_array << longitutde.to_f << latitude.to_f
 end
 
-#This is silly
 def clean_address(address)
-  clean_address = clean_string(address)
-
-  if clean_address.include? ' Av'
-    return clean_address.gsub(' Av', ' Ave.')
-  elsif clean_address.include? ' Bl'
-    return address.gsub(' Bl', ' Blvd.')
-  elsif clean_address.include? ' St' or clean_address.include? ' Rd'
-    return clean_address << '.'
-  elsif clean_address.include? 'Plaza' or clean_address.include? 'Airport'
-    return clean_address
-  else
-    return clean_address
+  unless address == nil
+    clean_address = clean_string(address)
+    if clean_address.include? ' Av'
+      return clean_address.sub(' Av', ' Ave.')
+    elsif clean_address.include? ' Bl'
+      return address.sub(' Bl', ' Blvd.')
+    elsif clean_address.include? ' St' or clean_address.include? ' Rd'
+      return clean_address << '.'
+    else
+      return clean_address
+    end
   end
+end
+
+def determine_owner(legalowner, first_name, last_name)
+  legalowner = clean_string(legalowner)
+  first_name = clean_string(first_name)
+  last_name = clean_string(last_name)
+
+  return clean_business_name(legalowner) if legalowner != nil
+  return clean_business_name("#{first_name} #{last_name}") if first_name != nil && last_name != nil
+  return first_name || last_name 
 end
 
 def iterate_output(input_array)
   parsed_array = Array.new
-
   input_array.each do |row|
     unless row[:location] == nil
       if parsed_array.last != nil && clean_string(row[:businessname]) == parsed_array.last[:businessname] && row[:violstatus] = 'Fail'
@@ -101,15 +108,13 @@ def iterate_output(input_array)
 
       elsif row[:licstatus] == 'Active'
         restaurant = Hash.new
-        restaurant[:businessname] = clean_business_name(row[:businessname])
-        restaurant[:owner] = clean_string(row[:legalowner])
-        restaurant[:first_name] = clean_string(row[:namefirst].capitalize)
-        restaurant[:last_name] = clean_string(row[:namelast].capitalize)
+        restaurant[:businessname] = clean_business_name(clean_string(row[:businessname])
+        restaurant[:owner] = determine_owner(row[:legalowner], row[:namefirst], row[:namelast])
         restaurant[:address] = clean_address(row[:address])
         restaurant[:city] = clean_string(row[:city])
         restaurant[:licenseno] = row[:licenseno]
         restaurant[:long], restaurant[:lat] = clean_coordinates(row[:location])
-        # restaurant[:violations] = Array.new
+        restaurant[:violations] = Array.new
 
         if row[:violstatus] = 'Fail'
         #   violation = Hash.new
