@@ -47,20 +47,20 @@ def clean_business_name(name)
     clean_name[index + 1] = clean_name[index + 1].upcase
   end
   clean_name.sub!(/l\sl\sc|l\.*?l\.*?c/i, 'LLC')
-  clean_name.sub!(/co\.?\s/i), 'Co. ')
+  clean_name.sub!(/co\.?\s/i, 'Co. ')
   clean_name.sub!(/l\s?l\s?p/i, 'LLP')
   return clean_name
 end
 
 def downcase_prepositions(uppercase_prep_string)
-  uppercase_prep_string.gsub(/\sOn\s/|/\sAnd\s/|/\sThe\s/|/\sOf\s/, ' On ' => ' on ', ' And ' => ' and ', ' The ' => ' the ', ' Of ' => ' of ')
+  uppercase_prep_string.gsub(/\sOn\s|\sAnd\s|\sThe\s/|\sOf\s/, ' On ' => ' on ', ' And ' => ' and ', ' The ' => ' the ', ' Of ' => ' of ')
 end
 
 def clean_coordinates(coordinates)
   coordinates_array = Array.new
   coordinates.delete!('()')
   longitutde, latitude = coordinates.split(', ')
-  coordinates_array << longitutde.to_f << latitude.to_f
+  return coordinates_array << longitutde.to_f << latitude.to_f
 end
 
 def clean_address(address)
@@ -108,7 +108,7 @@ def iterate_output(input_array)
 
       elsif row[:licstatus] == 'Active'
         restaurant = Hash.new
-        restaurant[:businessname] = clean_business_name(clean_string(row[:businessname])
+        restaurant[:businessname] = clean_business_name(clean_string(row[:businessname]))
         restaurant[:owner] = determine_owner(row[:legalowner], row[:namefirst], row[:namelast])
         restaurant[:address] = clean_address(row[:address])
         restaurant[:city] = clean_string(row[:city])
@@ -116,7 +116,7 @@ def iterate_output(input_array)
         restaurant[:long], restaurant[:lat] = clean_coordinates(row[:location])
         restaurant[:violations] = Array.new
 
-        if row[:violstatus] = 'Fail'
+        # if row[:violstatus] = 'Fail'
         #   violation = Hash.new
         #   violation['level'] = convert_violation_level(row[:viollevel])
         #   violation[:description] = clean_text(row[:violdesc])
@@ -124,8 +124,8 @@ def iterate_output(input_array)
         #   violation[:violation_code] = row[:violation]
         #   violation[:violation_dttm] = row[:violdttm]
         #   restaurant[:violations].push(violation)
-          restaurant[:violations_count] = 1
-        end
+        #   restaurant[:violations_count] = 1
+        # end
 
         parsed_array.push(restaurant)
 
