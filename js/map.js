@@ -25,7 +25,7 @@ $(function() {
 					//Plot w/ id for dom selection?
 					//https://groups.google.com/forum/#!topic/leaflet-js/DY5G3Os2EzE
 					//http://labs.easyblog.it/maps/leaflet-search/
-					owner = (restaurant_data[i].owner != null) ? restaurant_data[i].owner : restaurant_data[i].first_name + restaurant_data[i].last_name,
+					owner = restaurant_data[i].owner,
 					violations_count = restaurant_data[i].violations_count,
 					marker_text =
 					"<p class='restaurant-name'>" + name + "</p> \

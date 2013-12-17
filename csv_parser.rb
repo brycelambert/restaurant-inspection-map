@@ -1,5 +1,6 @@
 require 'csv'
 require 'json'
+require 'time'
 
 #Roman Numerals? --Find regex thing
 #Abbreviations 'M.g.h'
@@ -27,8 +28,8 @@ end
 def clean_string(string)
   unless string == nil
     clean_string = string.downcase.split.map(&:capitalize).join(' ')
-    return clean_string == '' ? nil : clean_string
   end
+  return clean_string == '' ? nil : clean_string
 end
 
 #Only first letter capitalized
@@ -40,10 +41,9 @@ end
 
 def clean_business_name(name)
   return name if name == nil
-
   clean_name = downcase_prepositions(name)
   index = clean_name.index("(") || clean_name.index("/") || clean_name.index("/-\S/")
-  unless index == nil?
+  unless index.nil?
     clean_name[index + 1] = clean_name[index + 1].upcase
   end
   clean_name.sub!(/l\sl\sc|l\.*?l\.*?c/i, 'LLC')
@@ -53,7 +53,7 @@ def clean_business_name(name)
 end
 
 def downcase_prepositions(uppercase_prep_string)
-  uppercase_prep_string.gsub(/\sOn\s|\sAnd\s|\sThe\s/|\sOf\s/, ' On ' => ' on ', ' And ' => ' and ', ' The ' => ' the ', ' Of ' => ' of ')
+  uppercase_prep_string.gsub(/\sOn\s|\sAnd\s|\sThe\s|\sOf\s/, ' On ' => ' on ', ' And ' => ' and ', ' The ' => ' the ', ' Of ' => ' of ')
 end
 
 def clean_coordinates(coordinates)
@@ -91,14 +91,14 @@ end
 def iterate_output(input_array)
   parsed_array = Array.new
   input_array.each do |row|
-    unless row[:location] == nil
+    unless row[:location].nil?
       if parsed_array.last != nil && clean_string(row[:businessname]) == parsed_array.last[:businessname] && row[:violstatus] = 'Fail'
         # violation = Hash.new
         # violation[:level] = convert_violation_level(row[:viollevel])
         # violation[:description] = clean_text(row[:violdesc])
         # violation[:comments] = clean_text(row[:comments])
         # violation[:violation_code] = row[:violation]
-        # violation[:violation_dttm] = row[:violdttm]
+        # violation[:violation_dttm] = Time.parse(row[:violdttm])
 
         # parsed_array.last[:violations].push(violation)
         parsed_array.last[:violations_count] += 1
@@ -116,16 +116,18 @@ def iterate_output(input_array)
         restaurant[:long], restaurant[:lat] = clean_coordinates(row[:location])
         restaurant[:violations] = Array.new
 
-        # if row[:violstatus] = 'Fail'
+        if row[:violstatus] = 'Fail'
         #   violation = Hash.new
         #   violation['level'] = convert_violation_level(row[:viollevel])
         #   violation[:description] = clean_text(row[:violdesc])
         #   violation[:comments] = clean_text(row[:comments])
         #   violation[:violation_code] = row[:violation]
-        #   violation[:violation_dttm] = row[:violdttm]
+        #   violation[:violation_dttm] = Time.parse(row[:violdttm])
         #   restaurant[:violations].push(violation)
-        #   restaurant[:violations_count] = 1
-        # end
+          restaurant[:violations_count] = 1
+        else
+          restaurant[:violations_count] = 0
+        end
 
         parsed_array.push(restaurant)
 
