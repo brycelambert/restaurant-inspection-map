@@ -27,7 +27,7 @@ $(function() {
 					<div class='popup-wrapper'> \
 					<div class='left'> \
 					<p class='address'>" + address + "<br />" + city + "</p> \
-					<p class='owner'>Owner: " + owner +
+					<p class='owner'><strong>Owner:</strong> " + owner +
 					"</div> \
 					<div class='right'> \
 					<p class='violations_heading'>Violations:</p> \

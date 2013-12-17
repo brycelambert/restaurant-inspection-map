@@ -1,0 +1,74 @@
+h1 {
+	border-bottom: 1px solid black;
+	color: #161616;
+	font: 400 40px/52px "old standard tt";
+	text-transform: uppercase;
+}
+
+h5 {
+	font: 400 18px/21px "old standard tt";
+	color: color: #161616;
+}
+
+#page-wrapper {
+	width: 950px;
+	margin: 0 auto;
+}
+
+#map {
+	width: 100%;
+	height: 600px;
+}
+
+#footer-block {
+	height: 100px;
+}
+
+.popup-wrapper {
+	font-family: 'Georgia';
+	overflow: hidden;
+	width: 200px;
+}
+
+.left {
+	float: left;
+	width: 130px;
+}
+
+.right {
+	float: right;
+	width: 60px;
+}
+
+.leaflet-popup-content {
+	margin: 8px 12px;
+}
+
+.restaurant-name {
+	font-weight: bold;
+	font-size: 15px;
+	margin-bottom: 0px;
+	width: 200px;
+}
+
+.address {
+	font-size: 12px;
+}
+
+.owner {
+	font-size: 11px
+
+}
+
+.violations_heading {
+	margin: 5px, 0, 7px, 0;
+	text-decoration: underline;
+}
+
+.violations_count {
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+	margin: 0px;
+
+}

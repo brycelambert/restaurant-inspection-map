@@ -24,8 +24,9 @@ end
 
 def clean_string(string)
   unless string == nil
-    string.downcase.split.map(&:capitalize).join(' ')
+    clean_string = string.downcase.split.map(&:capitalize).join(' ')
   end
+  return clean_string == '' ? nil : clean_string
 end
 
 def clean_text(text)
