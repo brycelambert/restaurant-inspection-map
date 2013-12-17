@@ -23,9 +23,17 @@ $(function() {
 					owner = (restaurant_data[i].owner != null) ? restaurant_data[i].owner : restaurant_data[i].first_name + restaurant_data[i].last_name,
 					violations_count = restaurant_data[i].violations_count,
 					marker_text =
-					"<p class='name'>" + name + "</p>
-					<p class='address'>" + address + "<br />" + city + "</p>
-					<p class='owner'>owner: " + owner; + ""
+					"<p class='restaurant-name'>" + name + "</p> \
+					<div class='popup-wrapper'> \
+					<div class='left'> \
+					<p class='address'>" + address + "<br />" + city + "</p> \
+					<p class='owner'>Owner: " + owner +
+					"</div> \
+					<div class='right'> \
+					<p class='violations_heading'>Violations:</p> \
+					<p class='violations_count'>" + violations_count +
+					"</div> \
+					</div>";
 
 			var marker = L.circle([long, lat], 15, circle_options);
 			marker.bindPopup(marker_text);
