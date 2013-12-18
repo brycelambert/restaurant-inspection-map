@@ -92,15 +92,14 @@ end
 def iterate_output(input_array)
   parsed_array = Array.new
   input_array.each do |row|
-    unless row[:violdttm].nil? && row[:location].nil?
-    time_of_violation = DateTime.parse(row[:violdttm])
-      if parsed_array.last != nil && clean_string(row[:businessname]) == parsed_array.last[:businessname] && row[:violstatus] = 'Fail' && time_of_violation.year >= 2012
+    unless row[:violdttm].nil? || row[:location].nil?
+      if parsed_array.last != nil && row[:licenseno] == parsed_array.last[:licenseno] && row[:violstatus] == 'Fail' && row[:violdttm].include?('2012'||'2013')
         violation = Hash.new
         violation[:level] = convert_violation_level(row[:viollevel])
         violation[:description] = clean_text(row[:violdesc])
         violation[:comments] = clean_text(row[:comments])
         violation[:violation_code] = row[:violation]
-        violation[:violation_dttm] = time_of_violation
+        violation[:violation_dttm] = DateTime.parse(row[:violdttm])
         parsed_array.last[:violations].push(violation)
         parsed_array.last[:violations_count] += 1
 
@@ -114,13 +113,13 @@ def iterate_output(input_array)
         restaurant[:long], restaurant[:lat] = clean_coordinates(row[:location])
         restaurant[:violations] = Array.new
 
-        if row[:violstatus] = 'Fail' && time_of_violation.year >= 2012
+        if row[:violstatus] =='Fail' && row[:violdttm].include?('2012'||'2013')
           violation = Hash.new
           violation['level'] = convert_violation_level(row[:viollevel])
           violation[:description] = clean_text(row[:violdesc])
           violation[:comments] = clean_text(row[:comments])
           violation[:violation_code] = row[:violation]
-          violation[:violation_dttm] = time_of_violation
+          violation[:violation_dttm] = DateTime.parse(row[:violdttm])
           restaurant[:violations].push(violation)
           restaurant[:violations_count] = 1
         else
@@ -155,5 +154,5 @@ parsed_array = iterate_output(output_array)
 
 open('output.json', 'a') do |f|
 f << 'restaurant_data = '
-f << parsed_array.to_json
+f << parsed_array
 end
