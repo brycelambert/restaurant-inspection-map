@@ -86,20 +86,23 @@ def determine_owner(legalowner, first_name, last_name)
 
   return clean_business_name(legalowner) if legalowner != nil
   return clean_business_name("#{first_name} #{last_name}") if first_name != nil && last_name != nil
-  return first_name || last_name 
+  owner = first_name || last_name
+  return clean_business_name(owner)
 end
 
 def iterate_output(input_array)
   parsed_array = Array.new
   input_array.each do |row|
-    unless row[:violdttm].nil? || row[:location].nil?
-      if parsed_array.last != nil && row[:licenseno] == parsed_array.last[:licenseno] && row[:violstatus] == 'Fail' && row[:violdttm].include?('2012'||'2013')
+
+    unless row[:violdttm].nil? || row[:location].nil? || row[:violdttm].include?('/12'||'/13') == false || row[:licstatus] == 'Inactive' || row[:violstatus] == 'Pass'
+
+      if parsed_array.last != nil && row[:licenseno] == parsed_array.last[:licenseno] && row[:violstatus] == 'Fail'
         violation = Hash.new
         violation[:level] = convert_violation_level(row[:viollevel])
         violation[:description] = clean_text(row[:violdesc])
         violation[:comments] = clean_text(row[:comments])
         violation[:violation_code] = row[:violation]
-        violation[:violation_dttm] = DateTime.parse(row[:violdttm])
+        violation[:violation_dttm] = row[:violdttm]
         parsed_array.last[:violations].push(violation)
         parsed_array.last[:violations_count] += 1
 
@@ -111,19 +114,18 @@ def iterate_output(input_array)
         restaurant[:city] = clean_string(row[:city])
         restaurant[:licenseno] = row[:licenseno]
         restaurant[:long], restaurant[:lat] = clean_coordinates(row[:location])
+        restaurant[:violations_count] = 0
         restaurant[:violations] = Array.new
 
-        if row[:violstatus] =='Fail' && row[:violdttm].include?('2012'||'2013')
+        if row[:violstatus] =='Fail'
           violation = Hash.new
           violation['level'] = convert_violation_level(row[:viollevel])
           violation[:description] = clean_text(row[:violdesc])
           violation[:comments] = clean_text(row[:comments])
           violation[:violation_code] = row[:violation]
-          violation[:violation_dttm] = DateTime.parse(row[:violdttm])
+          violation[:violation_dttm] = row[:violdttm]
           restaurant[:violations].push(violation)
-          restaurant[:violations_count] = 1
-        else
-          restaurant[:violations_count] = 0
+          restaurant[:violations_count] += 1
         end
         parsed_array.push(restaurant)
       end
@@ -145,12 +147,12 @@ end
 
 #input csv
 file = File.read('csv.csv', encoding: 'windows-1251:utf-8')
-csv_file = CSV.new(file, {headers: true, header_converters: :symbol, converters: [:all, :blank_to_nil]})
+csv_file = CSV.new(file, {headers: true, header_converters: :symbol, converters: [:blank_to_nil]})
 
 output_array = csv_file.to_a.map { |row| row.to_hash }
 
 #output csv
-parsed_array = iterate_output(output_array)
+parsed_array = iterate_output(output_array).to_json
 
 open('output.json', 'a') do |f|
 f << 'restaurant_data = '
