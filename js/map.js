@@ -32,7 +32,8 @@ $(function() {
 					<div class='right'> \
 					<p class='violations_heading'>Violations</p> \
 					<p class='violations_count'>" + violations_count +
-					"</div> \
+					"<p class = 'violations_click_notice'>(click for list)</p> \
+					</div> \
 					</div>";
 
 			var marker = L.circle([long, lat], 5, circle_options);

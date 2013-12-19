@@ -97,6 +97,13 @@ h1 {
 	margin: 0px;
 }
 
+.violations_click_notice {
+	font-size: 10px;
+	color: #656565;
+	text-align: center;
+	margin: 3px 0;
+}
+
 /*Info box styling*/
 
 #popup {
