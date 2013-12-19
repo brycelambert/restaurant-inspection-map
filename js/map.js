@@ -67,8 +67,10 @@ $(function() {
 				closeWindows();
 			});
 
-			$(document).on('click', function(){
-				closeWindows();
+			$(document).on('click', function(evt){
+				if (evt.taget.classname != 'popup-text') {
+					closeWindows();
+				};
 			});
 
 			$(document).keyup(function(evt) {
@@ -86,7 +88,7 @@ $(function() {
 	var fillPopupWindow = function(index){
 		var violation_data = restaurant_data[index].violations,
 				name = restaurant_data[index].businessname,
-				violation_list_head = "<h4>" + name + "</h4>";
+				violation_list_head = "<h4 class='popup-text'>" + name + "</h4>";
 		$('.violations_list').html(violation_list_head)
 		for (var i = 0; i < violation_data.length; i++) {
 			var level = violation_data[i].level;
@@ -94,9 +96,9 @@ $(function() {
 					comments = violation_data[i].comments,
 					dttm = violation_data[i].violation_dttm,
 					violation_html = 
-					"<li><p>" + description + "</p> \
-					<p>" + comments + "</p> \
-					<p class='subtext'>date/time: " + dttm +
+					"<li><p class='popup-text'>" + description + "</p> \
+					<p class='popup-text'>" + comments + "</p> \
+					<p class='subtext popup-text>date/time: " + dttm +
 					"&nbsp;&nbsp;&nbsp;&nbsp;level: " + level + "</li>";
 			$('.violations_list').append(violation_html)
 		};

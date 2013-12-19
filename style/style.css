@@ -93,22 +93,22 @@ h1 {
 
 .violations_count {
 	text-align: center;
-	font-size: 22px;
+	font-size: 24px;
 	margin: 0px;
 }
 
 .violations_click_notice {
-	font-size: 10px;
+	font-size: 9px;
 	color: #656565;
 	text-align: center;
-	margin: 3px 0;
+	margin: 2px 0;
 }
 
 /*Info box styling*/
 
 #popup {
 	width: 575px;
-	height: 580px;
+	height: 600px;
 	background-color: #fff;
 	z-index: 101;
 	overflow: scroll;
@@ -117,6 +117,12 @@ h1 {
 	float: right;
 	border-top: 1px solid #888788;
 	border-left: 1px solid #888788;;
+}
+
+#popup h4 {
+	font-weight: normal;
+	text-decoration: underline;
+	font-size: 18px;
 }
 
 #popup li {
