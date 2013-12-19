@@ -6,7 +6,9 @@ require 'pry'
 #Roman Numerals? --Find regex thing
 #Abbreviations 'M.g.h'
 
-#Narrow by year -> regex search dttm
+#words: by
+
+#use empty strings for nils?
 
 CSV::Converters[:blank_to_nil] = lambda do |field|
   field && field.empty? ? nil : field
