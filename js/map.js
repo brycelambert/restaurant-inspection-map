@@ -86,9 +86,9 @@ $(function() {
 
 	plotRestaurants();
 
-	var fillPopupWindow = function(index){
-		var violation_data = restaurant_data[index].violations,
-				name = restaurant_data[index].businessname,
+	var fillPopupWindow = function(i){
+		var violation_data = restaurant_data[i].violations,
+				name = restaurant_data[i].businessname,
 				violation_list_head = "<h4 class='popup-text'>" + name + "</h4>";
 		$('.violations_list').html(violation_list_head)
 		for (var i = 0; i < violation_data.length; i++) {
@@ -99,7 +99,7 @@ $(function() {
 					violation_html = 
 					"<li><p class='popup-text'>" + description + "</p> \
 					<p class='popup-text'>" + comments + "</p> \
-					<p class='subtext popup-text>date/time: " + dttm +
+					<p class='subtext popup-text'>date/time: " + dttm +
 					"&nbsp;&nbsp;&nbsp;&nbsp;level: " + level + "</li>";
 			$('.violations_list').append(violation_html)
 		};
