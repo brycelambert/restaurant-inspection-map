@@ -9,6 +9,7 @@ h1 {
 #info {
 	font: 400 18px/25px "old standard tt";
 	color: color: #161616;
+	margin-bottom: 2.5em;
 }
 
 #byline {
@@ -38,7 +39,7 @@ h1 {
 }
 
 #footer-block {
-	height: 250px;
+	height: 200px;
 	display: block;
 }
 
@@ -145,7 +146,7 @@ h1 {
 
 #overlay {
     position: absolute;
-	width: 975px;
+	width: 977px;
 	height: 600px;
     background-color: #000;
 

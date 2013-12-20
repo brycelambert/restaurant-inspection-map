@@ -56,6 +56,7 @@ $(function() {
 					evt.target.openPopup();
 					$('.right').on('click', function(evt){
 						$('#popup').show();
+						$('#overlay').show();
 						fillPopupWindow(dataIndex);
 					});
 				};
