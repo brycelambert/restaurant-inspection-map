@@ -69,7 +69,7 @@ $(function() {
 			});
 
 			$(document).on('click', function(evt){
-				if (evt.taget.classname != 'popup-text') {
+				if (evt.target.className != 'popup-text') {
 					closeWindows();
 				};
 			});
