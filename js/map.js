@@ -12,64 +12,62 @@ $(function() {
 	circle_options = { color: 'red', fillColor: '#a03', fillOpacity: 1};
 
 	L.tileLayer(tile_url, tile_layer_options).addTo(map);
-		
-	plotRestaurants = function() {
-		for (var i = 0; i < restaurant_data.length; i++) {
-			var long = restaurant_data[i].long,
-					lat = restaurant_data[i].lat,
-					name = restaurant_data[i].businessname,
-					address = restaurant_data[i].address,
-					city = restaurant_data[i].city,
-					owner = restaurant_data[i].owner,
-					violations_count = restaurant_data[i].violations_count,
-					marker_text =
-					"<p class='restaurant-name'>" + name + "</p> \
-					<div class='popup-wrapper'> \
-					<div class='left'> \
-					<p class='address'>" + address + "<br />" + city + "</p> \
-					<p class='owner'><strong>Owner:</strong> " + owner +
-					"</div> \
-					<div class='right'> \
-					<p class='violations_heading'>Violations</p> \
-					<p class='violations_count'>" + violations_count +
-					"<p class = 'violations_click_notice'>(click for list)</p> \
-					</div> \
-					</div>";
-
-			var marker = L.circle([long, lat], 5, circle_options);
-
-			marker.bindPopup(marker_text);
-			map.addLayer(marker);
-
-	     var popupWindow = function(index){
-				var dataIndex = index;
-				return function(){
-					$('#overlay').show()
-					$('#popup').show();
-					fillPopupWindow(dataIndex);
-				};
-			};
-
-			var createMouseOverHandler = function(){
-				var dataIndex = i;
-				return function(evt){
-					evt.target.openPopup();
-					$('.right').on('click', function(evt){
-						$('#popup').show();
-						$('#overlay').show();
-						fillPopupWindow(dataIndex);
-					});
-				};
-			};
-
-			marker.on('mouseover', createMouseOverHandler());
-
-		};
-	};
 
 	plotRestaurants();
 	startEventListeners();
 });
+
+plotRestaurants = function() {
+	for (var i = 0; i < restaurant_data.length; i++) {
+		var long = restaurant_data[i].long,
+				lat = restaurant_data[i].lat,
+				name = restaurant_data[i].businessname,
+				address = restaurant_data[i].address,
+				city = restaurant_data[i].city,
+				owner = restaurant_data[i].owner,
+				violations_count = restaurant_data[i].violations_count,
+				marker_text =
+				"<p class='restaurant-name'>" + name + "</p> \
+				<div class='popup-wrapper'> \
+				<div class='left'> \
+				<p class='address'>" + address + "<br />" + city + "</p> \
+				<p class='owner'><strong>Owner:</strong> " + owner +
+				"</div> \
+				<div class='right'> \
+				<p class='violations_heading'>Violations</p> \
+				<p class='violations_count'>" + violations_count +
+				"<p class = 'violations_click_notice'>(click for list)</p> \
+				</div> \
+				</div>";
+
+		var marker = L.circle([long, lat], 5, circle_options);
+
+		marker.bindPopup(marker_text);
+		map.addLayer(marker);
+
+  //   var popupWindow = function(){
+		// 	var index = i;
+		// 	return function(){
+		// 		$('#overlay').show()
+		// 		$('#popup').show();
+		// 		fillPopupWindow(index);
+		// 	};
+		// };
+
+		var createMouseOverHandler = function(){
+			var index = i;
+			return function(evt){
+				evt.target.openPopup();
+				$('.right').on('click', function(evt){
+					$('#popup').show();
+					$('#overlay').show();
+					fillPopupWindow(index);
+				});
+			};
+		};
+		marker.on('mouseover', createMouseOverHandler());
+	};
+};
 
 var startEventListeners = function(){
 	map.on('click', function(){
