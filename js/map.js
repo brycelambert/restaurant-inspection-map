@@ -64,51 +64,54 @@ $(function() {
 
 			marker.on('mouseover', createMouseOverHandler());
 
-			map.on('click', function(){
-				closeWindows();
-			});
-
-			$(document).on('click', function(evt){
-				if (evt.target.className != 'popup-text') {
-					closeWindows();
-				};
-			});
-
-			$(document).keyup(function(evt) {
-				if (evt.keyCode == 27) {
-					closeWindows()
-					map.closePopup()
-				};
-			});
-
 		};
 	};
 
 	plotRestaurants();
-
-	var fillPopupWindow = function(i){
-		var violation_data = restaurant_data[i].violations,
-				name = restaurant_data[i].businessname,
-				violation_list_head = "<h4 class='popup-text'>" + name + "</h4>";
-		$('.violations_list').html(violation_list_head)
-		for (var i = 0; i < violation_data.length; i++) {
-			var level = violation_data[i].level;
-					description = violation_data[i].description,
-					comments = violation_data[i].comments,
-					dttm = violation_data[i].violation_dttm,
-					violation_html = 
-					"<li><p class='popup-text'>" + description + "</p> \
-					<p class='popup-text'>" + comments + "</p> \
-					<p class='subtext popup-text'>date/time: " + dttm +
-					"&nbsp;&nbsp;&nbsp;&nbsp;level: " + level + "</li>";
-			$('.violations_list').append(violation_html)
-		};
-	};
-
-	var closeWindows = function(){
-		if ( $('#popup').is(':visible') ) {
-			$('#popup').hide();
-			$('#overlay').hide();
-		}
-	};
+	startEventListeners();
 });
+
+var startEventListeners = function(){
+	map.on('click', function(){
+		closeWindows();
+	});
+
+	$(document).on('click', function(evt){
+		if (evt.target.className != 'popup-text') {
+			closeWindows();
+		};
+	});
+
+	$(document).keyup(function(evt) {
+		if (evt.keyCode == 27) {
+			closeWindows()
+			map.closePopup()
+		};
+	});
+};
+
+var closeWindows = function(){
+	if ( $('#popup').is(':visible') ) {
+		$('#popup').hide();
+		$('#overlay').hide();
+	};
+};
+
+var fillPopupWindow = function(i){
+	var violation_data = restaurant_data[i].violations,
+			name = restaurant_data[i].businessname,
+			violation_list_head = "<h4 class='popup-text'>" + name + "</h4>";
+	$('.violations_list').html(violation_list_head)
+	for (var i = 0; i < violation_data.length; i++) {
+		var level = violation_data[i].level;
+				description = violation_data[i].description,
+				comments = violation_data[i].comments,
+				dttm = violation_data[i].violation_dttm,
+				violation_html = 
+				"<li><p class='popup-text'>" + description + "</p> \
+				<p class='popup-text'>" + comments + "</p> \
+				<p class='subtext popup-text'>date/time: " + dttm +
+				"&nbsp;&nbsp;&nbsp;&nbsp;level: " + level + "</li>";
+		$('.violations_list').append(violation_html)
+	};
+};
