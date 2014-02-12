@@ -19,6 +19,15 @@
 	<p id='byline'>Made by <a href='http://www.brycelambert.com'>Bryce Lambert</a> with data from <a href='http://www.cityofboston.gov/open/'>Boston Open Government</a></p>
 	<p id='info'>This map plots the health inspection failures of Boston's restaurants--a data set available <a href="https://data.cityofboston.gov/Health/Food-Establishment-Inspections/qndu-wx8w">here</a>. Unfortunately, like a whole lot of textual data sets out there, it doesn't come very clean. It's generously peppered with inconsistent formatting, data entry, spacing, capitalization, and abbreviations. These take considerable ironing out. More importantly, chunks of data important to this map--like location--are missing. The point of all this being that this map is neither the fairest nor the most accurate representation of the state of Boston's restaurants.</p>
 	
+	<div id='search'>
+		<form>
+			<input type='text' name='restaurant' id='search_field' autocomplete='off' />
+		</form>
+		<div id='output-box'>
+			<p id='output'></p>
+		</div>
+	</div>
+
 	<div id='map-container'>
 		<div id='overlay' style='display:none;'></div>
 		<div id='popup' style='display:none;'>
