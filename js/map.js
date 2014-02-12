@@ -22,7 +22,7 @@ var healthCodeMap = {
 		for (var i = 0; i < restaurant_data.length; i++) {
 			var long = restaurant_data[i].long,
 					lat = restaurant_data[i].lat,
-					name = restaurant_data[i].businessname,
+					name = restaurant_data[i].label,
 					address = restaurant_data[i].address,
 					city = restaurant_data[i].city,
 					owner = restaurant_data[i].owner,
@@ -89,7 +89,7 @@ var healthCodeMap = {
 
 	fillPopupWindow: function(i){
 		var violation_data = restaurant_data[i].violations,
-				name = restaurant_data[i].businessname,
+				name = restaurant_data[i].label,
 				violation_list_head = "<h4 class='popup-text'>" + name + "</h4>";
 		$('.violations_list').html(violation_list_head)
 		for (var i = 0; i < violation_data.length; i++) {
@@ -104,6 +104,18 @@ var healthCodeMap = {
 					"&nbsp;&nbsp;&nbsp;&nbsp;level: " + level + "</li>";
 			$('.violations_list').append(violation_html)
 		};
+	},
+
+	restaurantSearch: function() {
+		$('#search_field').autocomplete({
+			source: restaurant_data,
+			minLength: 2,
+			delay:150,
+			select: function() {
+				healthCodeMap.restauranZoom();
+				return false;
+			}
+		});
 	},
 };
 
