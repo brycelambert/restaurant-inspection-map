@@ -111,4 +111,5 @@ $(function() {
 	healthCodeMap.init();
 	healthCodeMap.plotRestaurants();
 	healthCodeMap.startEventListeners();
+	healthCodeMap.restaurantSearch();
 });
