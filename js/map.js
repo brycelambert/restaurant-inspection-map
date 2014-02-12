@@ -108,8 +108,7 @@ var healthCodeMap = {
 
 	restaurantZoom: function(restaurant) {
 		var latLng = new L.LatLng(restaurant.lat, restaurant.lng);
-		debugger;
-		healthCodeMap.map.setView(latLng, 15);
+		healthCodeMap.map.setView(latLng, 18);
 	},
 
 	restaurantSearch: function() {
