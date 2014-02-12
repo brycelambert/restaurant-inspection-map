@@ -62,7 +62,7 @@ end
 def clean_coordinates(coordinates)
   coordinates_array = Array.new
   coordinates.delete!('()')
-  longitutde, latitude = coordinates.split(', ')
+  latitude,longitutde = coordinates.split(', ')
   return coordinates_array << longitutde.to_f << latitude.to_f
 end
 
@@ -115,7 +115,7 @@ def iterate_output(input_array)
         restaurant[:address] = clean_address(row[:address])
         restaurant[:city] = clean_string(row[:city])
         restaurant[:licenseno] = row[:licenseno]
-        restaurant[:long], restaurant[:lat] = clean_coordinates(row[:location])
+        restaurant[:lng], restaurant[:lat] = clean_coordinates(row[:location])
         restaurant[:violations_count] = 0
         restaurant[:violations] = Array.new
 

@@ -20,7 +20,7 @@ var healthCodeMap = {
 	plotRestaurants: function() {
 		var circle_options = { color: 'red', fillColor: '#a03', fillOpacity: 1};
 		for (var i = 0; i < restaurant_data.length; i++) {
-			var long = restaurant_data[i].long,
+			var lng = restaurant_data[i].lng,
 					lat = restaurant_data[i].lat,
 					name = restaurant_data[i].label,
 					address = restaurant_data[i].address,
@@ -41,7 +41,7 @@ var healthCodeMap = {
 					</div> \
 					</div>";
 
-			var marker = L.circle([long, lat], 5, circle_options);
+			var marker = L.circle([lat, lng], 5, circle_options);
 
 			marker.bindPopup(marker_text);
 			healthCodeMap.map.addLayer(marker);
@@ -107,7 +107,9 @@ var healthCodeMap = {
 	},
 
 	restaurantZoom: function(restaurant) {
-
+		var latLng = new L.LatLng(restaurant.lat, restaurant.lng);
+		debugger;
+		healthCodeMap.map.setView(latLng, 15);
 	},
 
 	restaurantSearch: function() {
@@ -116,8 +118,7 @@ var healthCodeMap = {
 			minLength: 2,
 			delay:150,
 			select: function(event, ui) {
-				debugger;
-				healthCodeMap.restauranZoom(ui.item);
+				healthCodeMap.restaurantZoom(ui.item);
 				return false;
 			}
 		});
