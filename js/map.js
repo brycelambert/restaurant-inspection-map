@@ -2,7 +2,7 @@ var healthCodeMap = healthCodeMap || {};
 
 var healthCodeMap = {
 
-	init: function() {
+	initMap: function() {
 		var apiKey = 'e835cf86df4c4575ac7be175cca8bba9',
 		styleID = '997',
 		southWest = new L.LatLng(42.252215, -71.198273),
@@ -17,9 +17,11 @@ var healthCodeMap = {
 		L.tileLayer(tile_url, tile_layer_options).addTo(healthCodeMap.map);
 	},
 
+	markers: [],
+
 	plotRestaurants: function() {
 		var circle_options = { color: 'red', fillColor: '#a03', fillOpacity: 1};
-		var markers = [];
+		var markers = healthCodeMap.markers;
 		for (var i = 0; i < restaurant_data.length; i++) {
 			var lng = restaurant_data[i].lng,
 					lat = restaurant_data[i].lat,
@@ -126,7 +128,7 @@ var healthCodeMap = {
 };
 
 $(function() {
-	healthCodeMap.init();
+	healthCodeMap.initMap();
 	healthCodeMap.plotRestaurants();
 	healthCodeMap.startEventListeners();
 	healthCodeMap.restaurantSearch();
