@@ -112,6 +112,7 @@ var healthCodeMap = {
 	restaurantZoom: function(restaurant) {
 		var latLng = new L.LatLng(restaurant.lat, restaurant.lng);
 		healthCodeMap.map.setView(latLng, 18);
+		healthCodeMap.markers[restaurant.id].openPopup();
 	},
 
 	restaurantSearch: function() {
