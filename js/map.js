@@ -106,17 +106,22 @@ var healthCodeMap = {
 		};
 	},
 
+	restaurantZoom: function(restaurant) {
+
+	},
+
 	restaurantSearch: function() {
 		$('#search_field').autocomplete({
 			source: restaurant_data,
 			minLength: 2,
 			delay:150,
-			select: function() {
-				healthCodeMap.restauranZoom();
+			select: function(event, ui) {
+				debugger;
+				healthCodeMap.restauranZoom(ui.item);
 				return false;
 			}
 		});
-	},
+	}
 };
 
 $(function() {
