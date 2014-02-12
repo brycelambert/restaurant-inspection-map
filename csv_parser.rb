@@ -110,7 +110,7 @@ def iterate_output(input_array)
 
       elsif row[:licstatus] == 'Active'
         restaurant = Hash.new
-        restaurant[:businessname] = clean_business_name(clean_string(row[:businessname]))
+        restaurant[:label] = clean_business_name(clean_string(row[:businessname]))
         restaurant[:owner] = determine_owner(row[:legalowner], row[:namefirst], row[:namelast])
         restaurant[:address] = clean_address(row[:address])
         restaurant[:city] = clean_string(row[:city])
