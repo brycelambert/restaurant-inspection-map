@@ -94,8 +94,9 @@ end
 
 def iterate_output(input_array)
   parsed_array = Array.new
-  input_array.each do |row|
+  restaurant_counter = 0
 
+  input_array.each do |row|
     unless row[:violdttm].nil? || row[:location].nil? || row[:violdttm].include?('/12'||'/13') == false || row[:licstatus] == 'Inactive' || row[:violstatus] == 'Pass'
 
       if parsed_array.last != nil && row[:licenseno] == parsed_array.last[:licenseno] && row[:violstatus] == 'Fail'
@@ -111,6 +112,8 @@ def iterate_output(input_array)
       elsif row[:licstatus] == 'Active'
         restaurant = Hash.new
         restaurant[:label] = clean_business_name(clean_string(row[:businessname]))
+        restaurant[:id] = restaurant_counter
+        restaurant_counter += 1
         restaurant[:owner] = determine_owner(row[:legalowner], row[:namefirst], row[:namelast])
         restaurant[:address] = clean_address(row[:address])
         restaurant[:city] = clean_string(row[:city])
