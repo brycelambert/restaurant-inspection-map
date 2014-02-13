@@ -113,6 +113,11 @@ var healthCodeMap = {
 		var latLng = new L.LatLng(restaurant.lat, restaurant.lng);
 		healthCodeMap.map.setView(latLng, 18);
 		healthCodeMap.markers[restaurant.id].openPopup();
+		$('.right').on('click', function(evt){
+			$('#popup').show();
+			$('#overlay').show();
+			healthCodeMap.fillPopupWindow(restaurant.id);
+		});
 	},
 
 	restaurantSearch: function() {
