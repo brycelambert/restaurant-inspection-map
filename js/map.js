@@ -121,7 +121,7 @@ var healthCodeMap = {
 	},
 
 	restaurantSearch: function() {
-		$('#search_field').autocomplete({
+		$('#search-field').autocomplete({
 			source: restaurant_data,
 			minLength: 2,
 			delay:150,
