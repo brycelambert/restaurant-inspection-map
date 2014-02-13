@@ -122,7 +122,10 @@ var healthCodeMap = {
 
 	restaurantSearch: function() {
 		$('#search-field').autocomplete({
-			source: restaurant_data,
+			source: function(request, response) {
+				var results = $.ui.autocomplete.filter(restaurant_data, request.term);
+				response(results.slice(0,20));
+			},
 			minLength: 2,
 			delay:150,
 			select: function(event, ui) {
