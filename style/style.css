@@ -117,7 +117,7 @@ h1 {
 	position: absolute;
 	float: right;
 	border-top: 1px solid #888788;
-	border-left: 1px solid #888788;;
+	border-left: 1px solid #888788;
 }
 
 #popup h4 {
@@ -158,6 +158,11 @@ h1 {
 }
 
 /*Autocomplete*/
+
+.search-field-suggestions { border: 1px solid #999; background: #fff; cursor: default; overflow: auto; }
+.search-field-suggestion { padding: 10px 5px; font-size: 1.2em; white-space: nowrap; overflow: hidden; }
+.search-field-selected { background: #f0f0f0; }
+.search-field-suggestions strong { font-weight: normal; color: #3399ff; }
 
 #search { display: block; width: 100%; text-align: center; margin-bottom: 35px; }
 
