@@ -135,7 +135,7 @@ var healthCodeMap = {
 		})
 		.data('ui-autocomplete')._renderItem = function(ul, item) {
 			return $('<li>')
-				.append( "<a>" + item.label + " (" + item.address + ")" )
+				.append( "<a>" + item.label + "<em>" + item.address + "</em>" )
 				.appendTo(ul);
 		};
 	}

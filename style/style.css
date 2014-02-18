@@ -159,11 +159,20 @@ h1 {
 
 /*Autocomplete*/
 
+#search {
+	position: relative;
+	display: inline-block;
+}
+
 #search-field {
+	position: absolute;
+	bottom: 0;
 	font-size: 1.2em;
-	font-family: 'Georgia';
-	color: #161616;
-	padding: 3px;
+	font-family: 'Times';
+	color: #a7a7a7;
+	padding: 4px;
+	border: 1px solid;
+	margin-left: -1px;
 }
 
 .ui-autocomplete {
@@ -172,8 +181,14 @@ h1 {
 	padding: 8px 13px;
 }
 
+.ui-autocomplete em {
+	color: #888888;
+	font-size: .9em;
+	padding-left: 5px;
+}
+
 .ui-menu-item {
-	line-height: 1.5em;
+	line-height: 1.4em;
 }
 
 .ui-helper-hidden-accessible { display:none; }
