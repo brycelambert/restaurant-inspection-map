@@ -132,7 +132,12 @@ var healthCodeMap = {
 				healthCodeMap.restaurantZoom(ui.item);
 				return false;
 			}
-		});
+		})
+		.data('ui-autocomplete')._renderItem = function(ul, item) {
+			return $('<li>')
+				.append( "<a>" + item.label + " (" + item.address + ")" )
+				.appendTo(ul);
+		};
 	}
 };
 
