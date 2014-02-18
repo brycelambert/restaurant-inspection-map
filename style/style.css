@@ -1,6 +1,9 @@
+body {
+	color: #161616;
+}
+
 h1 {
 	border-bottom: 1px solid black;
-	color: #161616;
 	font: 400 35px/50px "old standard tt";
 	text-transform: uppercase;
 	margin-bottom: 7px;
@@ -8,7 +11,6 @@ h1 {
 
 #info {
 	font: 400 18px/25px "old standard tt";
-	color: color: #161616;
 	margin-bottom: 2.5em;
 }
 
@@ -145,12 +147,11 @@ h1 {
 }
 
 #overlay {
-    position: absolute;
+  position: absolute;
 	width: 977px;
 	height: 600px;
-    background-color: #000;
-
-    filter:alpha(opacity=50);
+  background-color: #000;
+	filter:alpha(opacity=50);
     -moz-opacity:0.5;
     -khtml-opacity: 0.5;
     opacity: 0.5;
@@ -159,62 +160,44 @@ h1 {
 
 /*Autocomplete*/
 
-#search {
-	position: relative;
-	display: inline-block;
+#search span {
+	/*font-size: 1.1em;*/
+	font: 400 1em "old standard tt";
+	font-style: italic;
 }
 
 #search-field {
-	position: absolute;
-	bottom: 0;
-	font-size: 1.2em;
-	font-family: 'Times';
+	font: 400 1em "old standard tt";
+	font-size: .9em;
 	color: #a7a7a7;
-	padding: 4px;
+	padding: 6px;
 	border: 1px solid;
 	margin-left: -1px;
+	width: 220px;
 }
 
 .ui-autocomplete {
 	list-style-type: none;
 	background-color: #fff;
-	padding: 8px 13px;
+	padding: 6px;
+	width: 450px;
 }
 
 .ui-autocomplete em {
 	color: #888888;
 	font-size: .9em;
-	padding-left: 5px;
+	padding-left: 7px;
 }
 
 .ui-menu-item {
-	line-height: 1.4em;
+	font: 400 1em/1.5em "old standard tt";
+	cursor: default;
 }
 
-.ui-helper-hidden-accessible { display:none; }
-
-
-/*.search-field-suggestions { border: 1px solid #999; background: #fff; cursor: default; overflow: auto; }
-.search-field-suggestion { padding: 10px 5px; font-size: 1.2em; white-space: nowrap; overflow: hidden; }
-.search-field-selected { background: #f0f0f0; }
-.search-field-suggestions strong { font-weight: normal; color: #3399ff; }
-
-#search { display: block; width: 100%; text-align: center; margin-bottom: 35px; }
-
-#search-field {
-  width: 600px;
-  height: 40px;
-  padding: 0 10px 0 10px;
-  background-color: #fff;
-  border: 1px solid #c8c8c8;
-  border-radius: 3px;
-  color: #aeaeae;
-  font-weight:normal;
-  font-size: 1.5em;
-  -webkit-transition: all 0.2s linear;
-  -moz-transition: all 0.2s linear;
-  transition: all 0.2s linear;
+.ui-menu-item:hover {
+	background-color: #e2e2e2;
 }
-#search-field:focus {
-  color: #858585;
-}*/
+
+.ui-helper-hidden-accessible {
+	display:none;
+}

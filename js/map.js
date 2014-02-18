@@ -129,6 +129,7 @@ var healthCodeMap = {
 			minLength: 2,
 			delay:150,
 			select: function(event, ui) {
+				$('#search-field').val(ui.item.label);
 				healthCodeMap.restaurantZoom(ui.item);
 				return false;
 			}
