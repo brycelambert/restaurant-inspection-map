@@ -124,7 +124,7 @@ var healthCodeMap = {
 		$('#search-field').autocomplete({
 			source: function(request, response) {
 				var results = $.ui.autocomplete.filter(restaurant_data, request.term);
-				response(results.slice(0,20));
+				response(results.slice(0,15));
 			},
 			minLength: 2,
 			delay:150,
