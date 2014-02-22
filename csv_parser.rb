@@ -97,7 +97,10 @@ def iterate_output(input_array)
   restaurant_counter = 0
 
   input_array.each do |row|
-    unless row[:violdttm].nil? || row[:location].nil? || row[:violdttm].include?('/12'||'/13') == false || row[:licstatus] == 'Inactive' || row[:violstatus] == 'Pass'
+
+    unless row[:violdttm].nil? || row[:location].nil? || row[:licstatus] == 'Inactive' || row[:violstatus] == 'Pass'
+
+    if row[:violdttm].include?('/12 ') || row[:violdttm].include?('/13 ')
 
       if parsed_array.last != nil && row[:licenseno] == parsed_array.last[:licenseno] && row[:violstatus] == 'Fail'
         violation = Hash.new
@@ -133,6 +136,7 @@ def iterate_output(input_array)
           restaurant[:violations_count] += 1
         end
         parsed_array.push(restaurant)
+      end
       end
     end
   end
