@@ -98,11 +98,10 @@ var healthCodeMap = {
 		for (var i = 0; i < violation_data.length; i++) {
 			var level = violation_data[i].level;
 					description = violation_data[i].description,
-					comments = violation_data[i].comments,
+					// comments = violation_data[i].comments,
 					dttm = violation_data[i].violation_dttm,
 					violation_html = 
 					"<li><p class='popup-text'>" + description + "</p> \
-					<p class='popup-text'>" + comments + "</p> \
 					<p class='subtext popup-text'>date/time: " + dttm +
 					"&nbsp;&nbsp;&nbsp;&nbsp;level: " + level + "</li>";
 			$('.violations_list').append(violation_html)
