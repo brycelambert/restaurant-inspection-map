@@ -10,8 +10,8 @@ var healthCodeMap = {
 		bounds = new L.LatLngBounds(southWest, northEast),
 		center = new L.LatLng(42.351074, -71.066008),
 		map_options = { center: center, zoom: 15, maxBounds: bounds },
-		tile_url = 'http://{s}.tile.cloudmade.com/' + apiKey +'/'+ styleID +'/256/{z}/{x}/{y}.png',
-		attribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+		attribution = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+		tile_url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 		tile_layer_options = { attribution: attribution, maxZoom: 18, detectRetina: true };
 		healthCodeMap.map = L.map('map', map_options);
 		L.tileLayer(tile_url, tile_layer_options).addTo(healthCodeMap.map);
