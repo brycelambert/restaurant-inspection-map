@@ -4,4 +4,4 @@ The [csv parser](csv_parser.rb) accepts a csv file of public data available [her
 
 The map has a search function thanks to [JQuery autocomplete](http://jqueryui.com/autocomplete/) and allows a user to browse violation counts and list violations for a specific restaurant.
 
-See it [live](http://brycelambert.com/health-code/)
+See it [live](http://healthinspection.mp)
